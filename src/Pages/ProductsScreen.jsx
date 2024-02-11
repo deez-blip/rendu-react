@@ -1,44 +1,46 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import { useGetProductsQuery, useGetProductCommentsQuery, useCreateProductCommentMutation } from '../Services/API';
-import Card from '../Components/Card';
-import styled from "styled-components"
+import styled from "styled-components";
 import Header from "../Components/Header";
-
-export default function ProductsScreen() {
-    const products = [
-        { id: 1, name: "Product 1", price: 200 },
-        { id: 2, name: "Product 2", price: 200 },
-        { id: 3, name: "Product 3", price: 200 }
-    ]
-
-    let { data, isLoading } = useGetProductsQuery();
-
-    return (
-        <Container>
-            <Link to='/cart'>Voir panier</Link>
-            ProductsScreen
-            {!isLoading ? (
-                data.map((article) => {
-                    //console.log('aaaaa',data)
-                    console.log('ocunt')
-                    return (
-                        <Card 
-                        id={article.id} 
-                        title={article.title} 
-                        price={article.price} 
-                        amount={article.quantity} 
-                        ar={article}/>
-                    );
-                })
-            ) : (
-                <span>Loading</span>
-            )}
-        </Container>
-    )
-}
+import Card from "../Components/Card";
+import { useGetProductsQuery } from '../Services/API';
 
 const Container = styled.div`
-    background-color: antiquewhite;
-    height: 100vh
+    background-color: #f8f9fa;
+    color: #343a40;
+    min-height: 100vh;
+    padding: 20px;
 `
+
+const ProductsContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    margin-top: 20px;
+`
+
+export default function ProductsScreen() {
+    let { data, isLoading } = useGetProductsQuery();
+    return (
+        <Container>
+            <Header />
+            <ProductsContainer>
+                {!isLoading ? (
+                    data.map((article) => (
+                        <Card 
+                            key = { article.id }
+                            id = { article.id } 
+                            title = { article.title } 
+                            price = { article.price } 
+                            amount = { article.quantity } 
+                            image = { article.image }
+                            ar = { article }
+                        />
+                    ))
+                ) : (
+                <span>Loading...</span>
+                )}
+            </ProductsContainer>
+        </Container>
+    );
+}
+

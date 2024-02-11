@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+//import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomeScreen from './Pages/HomeScreen';
@@ -12,7 +12,6 @@ import Cart from './Pages/Cart';
 import { Provider } from 'react-redux';
 import { store } from './store'
 import { CartProvider } from './Context/CarContext';
-import Header from './Components/Header';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +39,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <CartProvider>
-        <Header />
         <RouterProvider router={router} />
       </CartProvider>
     </Provider>

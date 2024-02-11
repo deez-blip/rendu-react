@@ -4,12 +4,59 @@ import { useGetProductCommentsQuery, useCreateProductCommentMutation } from '../
 import CommentCard from '../Components/CommentCard';
 import styled from 'styled-components';
 
-// Styled component pour la grille de commentaires
+const PageContainer = styled.div`
+  padding: 20px;
+  background-color: #f8f9fa;
+`;
+
+const StyledLink = styled(Link)`
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr); // Crée une grille avec 4 colonnes
-  gap: 16px; // Espace entre les cartes
-  margin: 16px; // Marge autour de la grille
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 16px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin-top: 20px;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const Textarea = styled.textarea`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+`;
+
+const SubmitButton = styled.button`
+  padding: 10px 15px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:disabled {
+    background-color: #ccc;
+  }
 `;
 
 export default function ProductScreen() {
@@ -17,31 +64,44 @@ export default function ProductScreen() {
     let { data, isLoading } = useGetProductCommentsQuery(productID);
     let [createProductComment, { isLoading: isCommentSubmitting }] = useCreateProductCommentMutation();
 
-    // État local pour le formulaire
     const [username, setUsername] = useState('');
     const [comment, setComment] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Assurez-vous que ni le username ni le commentaire ne sont vides
         if (username.trim() && comment.trim()) {
             createProductComment({
                 id: productID,
                 username,
                 comment
             }).then(() => {
-                // Réinitialiser le formulaire et peut-être actualiser les commentaires
                 setUsername('');
                 setComment('');
-                // Vous pouvez également rafraîchir les commentaires ici si nécessaire
             });
         }
     };
 
     return (
-        <div>
-            <h1>ProductScreen</h1>
-            <Link to='/products'>Back to products</Link>
+        <PageContainer>
+            <StyledLink to='/products'>Back to products</StyledLink>
+            <Form onSubmit={handleSubmit}>
+                <Input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Username"
+                    required
+                />
+                <Textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Write a comment..."
+                    required
+                />
+                <SubmitButton type="submit" disabled={isCommentSubmitting}>
+                    Submit Comment
+                </SubmitButton>
+            </Form>
             {!isLoading ? (
                 <GridContainer>
                     {data?.map((comment, index) => (
@@ -51,24 +111,6 @@ export default function ProductScreen() {
             ) : (
                 <span>Loading</span>
             )}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Username"
-                    required
-                />
-                <textarea
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    placeholder="Write a comment..."
-                    required
-                />
-                <button type="submit" disabled={isCommentSubmitting}>
-                    Submit Comment
-                </button>
-            </form>
-        </div>
+        </PageContainer>
     );
 }

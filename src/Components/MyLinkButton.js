@@ -1,13 +1,32 @@
-import { Link } from "react-router-dom"
+import React from 'react';
+import { Link } from "react-router-dom";
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+    padding: 5px 10px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+`;
 
 function MyButton({ id, text }) {
     return (
-        <Link to={`/products/${id}`}>
-            <button>
+        <StyledLink to={`/products/${id}`}>
+            <StyledButton>
                 {text}
-            </button>
-        </Link>
-    )
+            </StyledButton>
+        </StyledLink>
+    );
 }
 
-export default MyButton
+export default MyButton;

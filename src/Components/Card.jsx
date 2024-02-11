@@ -5,36 +5,46 @@ import MyButton from './MyButton';
 import { useCartContext } from '../Context/CarContext';
 import { v4 as uuidv4 } from 'uuid';
 
-// Créez les styles de la carte en utilisant styled-components
+// Styles mis à jour de la carte
 const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 16px;
   margin: 8px;
-  width: 200px;
+  width: 250px; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: blue
+  background-color: #007bff; 
+`;
+
+const CardImage = styled.img`
+  width: 100%; 
+  border-radius: 4px; 
+  margin-bottom: 16px; 
 `;
 
 const Title = styled.h3`
   margin: 0;
-  color: #ffff;
+  color: #ffffff; 
   font-size: 1.2em;
+  text-align: center; 
 `;
 
 const Price = styled.div`
-  color: #ffff;
+  color: #ffffff; 
   font-size: 1em;
   margin-top: 8px;
 `;
 
 const Amount = styled.div`
-  color: #ffff;
+  color: #ffffff; 
   font-size: 1em;
   margin-top: 8px;
 `;
 
-function Card({ id, title, price, amount }) {
+function Card({ id, title, price, amount, image }) {
   const { dispatch } = useCartContext();
 
   const addItemToCart = () => {
@@ -50,14 +60,14 @@ function Card({ id, title, price, amount }) {
 
   return (
     <StyledCard>
+      <CardImage src={image} alt={title} />
       <Title>{title}</Title>
       <Price>${price}</Price>
-      <Amount>{amount}</Amount>
-      <MyLinkButton id={id} text="see comment" />
-      <MyButton text="add to cart" onClick={addItemToCart} />
+      <Amount>Quantity: {amount}</Amount>
+      <MyLinkButton id={id} text="See comment" />
+      <MyButton text="Add to cart" onClick={addItemToCart} />
     </StyledCard>
   );
 }
-
 
 export default Card;

@@ -1,38 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
-import MyLinkButton from "../Components/MyLinkButton";
 
-// Créez les styles de la carte en utilisant styled-components
 const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 16px;
   margin: 8px;
   width: 200px;
+  height: 150px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: blue
+  background-color: #007bff;
+  color: #ffffff;
+  overflow: hidden;
 `;
 
 const Username = styled.h3`
-  margin: 0;
-  color: #ffff;
+  margin: 0 0 8px 0;
+  color: #ffffff;
   font-size: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-const Comment = styled.div`
+const CommentText = styled.div`
   color: #ffff;
   font-size: 1em;
+  overflow-y: auto;
   margin-top: 8px;
+  text-align: justify;
 `;
 
-// Composant Card qui accepte id, title et price en tant que props
 function CommentCard({ id, username, comment }) {
   return (
     <StyledCard>
       <Username>{username}</Username>
-      <Comment>{comment}</Comment>
-      {/* Vous pouvez également afficher l'ID si nécessaire */}
-      {/* <div>ID: {id}</div> */}
+      <CommentText>{comment}</CommentText>
     </StyledCard>
   );
 }
